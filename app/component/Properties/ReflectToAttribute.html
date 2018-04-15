@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <script src="https://bstavroulakis.com/pluralsight/polymer/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="https://bstavroulakis.com/pluralsight/polymer/bower_components/polymer/polymer.html" />
+</head>
+<body>
+  <alert-element></alert-element>
+  <dom-module id="alert-element">
+    <template>[[message]]</template>
+  </dom-module>
+  <script>
+    HTMLImports.whenReady(function() {
+      Polymer({
+        is: "alert-element",
+        properties: {
+          message: {
+            type: String,
+            value: "Success!",
+            reflectToAttribute: true
+          },
+          isSuccess: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true
+          },
+          messageObj:{
+            type: Object,
+            value: {message:"hello", type:"success"},
+            reflectToAttribute: true
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

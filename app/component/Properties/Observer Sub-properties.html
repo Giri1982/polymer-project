@@ -1,0 +1,63 @@
+<!-- In this demo, I change the loading properties into sub-properties of the loadStatus object.
+ Let us see what will happen if we observe a sub-property. After opening the console tab, 
+ we can check that the observer ran after the percentage sub-property was updated but remember
+  it didn't run when we set the sub-property ourselves but only when we set the objects 
+  sub-property with the set methods that ran the notifyPath applying all of the changes. 
+  Also, with the asterisk symbol, we observed all of the sub-properties of an object and as an 
+  attribute now it will include an object and not the new and old value. -->
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+    <script src="https://bstavroulakis.com/pluralsight/polymer/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="https://bstavroulakis.com/pluralsight/polymer/bower_components/polymer/polymer.html" />
+    </head>
+    <body>
+      
+    <alert-element></alert-element>
+    
+    <dom-module id="alert-element">
+      <template>
+          <div hidden$="{{!loadStatus.loading}}">loading (<span>{{loadStatus.percent}}%</span>)...</div>
+          [[message]]
+          <paper-input value="{{message}}"></paper-input>
+      </template>
+    </dom-module>
+    
+    <script>
+      HTMLImports.whenReady(function () {
+        Polymer({
+            is: "alert-element",
+            properties:{
+                message:{
+                    type: String,
+                    value: "hello"
+                },
+                loadStatus:{
+                    type: Object,
+                    value: function(){
+                        return { percent: 0, loading: true }
+                    }
+                }
+            },
+            observers:[
+                'loadingCheck(loadStatus.percent)',
+                'loadingCheckAll(loadStatus.*)'
+            ],
+            loadingCheckAll: function(changeRecord){
+              console.log(changeRecord);
+            },
+            loadingCheck: function(loadingPercentange){
+              console.log(loadingPercentange, '%');
+            },
+            ready: function(){
+              this.message = "Not quite my tempo.";
+              this.loadStatus.percent = 10;
+              this.set("loadStatus.percent", 20);
+            }
+        });
+      });
+    </script>
+    </body>
+</html>

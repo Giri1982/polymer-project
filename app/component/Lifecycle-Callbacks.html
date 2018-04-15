@@ -1,0 +1,72 @@
+<!-- 
+Created callback that is called once an element is created, but what does this mean exactly? While declaring, attaching to the page, adding and removing custom elements from 
+our page, these elements trigger some callback events. Polymer elements callbacks are similar to the 
+native custom element callbacks. Polymer adds only one new callback named ready. Add a button 
+in the body with an on-click event. This event will remove the hello-element that it finds on our page.
+ Let us go over the different callbacks. 
+ The created callback is the first callback called but before  property values are set,
+  then the ready callback is called. When the properties are set, the data of 
+ the template has been copied and pasted in the element's instance and all of the elements inside the
+  local dom are ready. Ready is used when we want to manipulate an element's local dom when the element 
+  is constructed. Attached is called after the element is attached to the document. Let us revise the 
+  slide we went over in the video Parsing an HTML Element. You remember of course this simple HTML 
+  structure, whenever a tag is inserted in our code, the browser will create the corresponding element
+and once the element is added on the dom tree, it will fire the attached event. Detached is called after
+the element is detached from the document. In our example, once the element is removed from the dom tree,
+the detached event will fire. Attribute changed when one of the element's attribute has changed. 
+Lastly, the factoryImpl method is only evokes when we create an element using the constructor. 
+The factoryImpl method is not called if the element is created from markup by the HTML parser or if 
+the element is created using document.createelement. The factoryImpl method is called after the element 
+is initialized. I will open the Developer Tools now by pressing the F12 button on my keyboard.
+So first, with this line of code, we declared our element so we have the first created callback run. 
+Then the ready callback and lastly the factoryImpl callback since this instance ran from a constructor.
+Then from the createelement function, we have the created and the ready callback but not the 
+factoryImpl since it wasn't declared by a constructor but by the createelement function. 
+Lastly, with the appendchild, the attached callback ran. Of course, when we removed an element, 
+the detached callback ran.  -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://bstavroulakis.com/pluralsight/polymer/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="https://bstavroulakis.com/pluralsight/polymer/bower_components/polymer/polymer.html" />
+  </head>
+  <body>
+    <button onclick="document.querySelector('hello-element').remove()">Remove Hello</button>
+    <script>
+      HTMLImports.whenReady(function () {
+        HelloElement = Polymer({
+          is: "hello-element",
+          created: function() {
+              this.textContent = "Hello there";
+              console.log("Created: The element has been created.");
+          },
+          ready: function() {
+              console.log("Ready: Property values set and local DOM is initialized.");
+              this.message = "hello2";
+          },
+          attached: function() {
+              console.log("Attached: The element is attached to the document." +
+                  "Can be called multiple times.");
+          },
+          detached: function() {
+              console.log("Detached: The element has been detached");
+          },
+          factoryImpl: function() {
+              console.log("Factory Impl: Only invoked when creating an event using" + 
+                  " the constructor.")
+          },
+          attributeChanged: function(attrName, oldVal, newVal) {
+              console.log("AttributeChanged: Attribute " + attrName + 
+                  " oldValue: " + oldVal + " newValue: " + newVal);
+          }
+        });
+        
+        var el = new HelloElement();
+        document.querySelector("body").appendChild(el);
+        var el2 = document.createElement('hello-element');
+        document.querySelector("body").appendChild(el2);
+      });
+    </script>
+    </body>
+</html>

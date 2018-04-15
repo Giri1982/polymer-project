@@ -1,0 +1,14 @@
+{
+  "name": "Polymer project",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.3",
+    "iron-ajax": "polymerelements/iron-ajax#1.4.4"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "test5"
+  ]
+}

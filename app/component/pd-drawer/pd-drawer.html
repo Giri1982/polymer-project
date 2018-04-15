@@ -1,0 +1,64 @@
+<html>
+
+<Head></Head>
+
+<body>
+    <input type="text" is="hello-element" />
+    <dom-module id="pd-drawer">
+        <template>
+            <p>LeftShow:
+                <input type="text" value="{{leftshow::input}}"> </p>
+            <p>RightShow:
+                <input type="text" value="{{rightshow::input}}"> </p>
+            <p>The value of left show is:
+                <span>{{leftshow}}</span>
+            </p>
+            <p>The value of right show is:
+                <span>{{rightshow}}</span>
+            </p>
+        </template>
+    </dom-module>
+
+    <script>
+        HTMLImports.whenReady(function () {
+            Polymer({
+                is: "pd-drawer",
+                properties: {
+                    leftshow: {
+                        type: Boolean,
+                        value: true
+                    },
+                    rightshow: {
+                        type: Boolean,
+                        value: true
+                    }
+                }
+            })
+        })
+    </script>
+
+
+    <!-- Class Style Constructor way of creating custom elements  -->
+    <!-- In 1.0, the extends can be used only on Native elements and not on custom -->
+    <!-- <script>
+        HTMLImports.whenReady(function () {
+            HelloElement = Polymer.Class({
+                is: "pd-drawer",
+                extends: 'input',
+                // Called Before the Properties are set
+                created: function () {
+                    this.value = "Hello There";
+                }
+            });
+
+            document.registerElement('pd-drawer', HelloElement);
+
+            var el = new HelloElement();
+            document.querySelector("body").appendChild(el);
+            var el2 = document.createElement("hello-element");
+            document.querySelector("body").appendChild(el2);
+        })
+    </script> -->
+</body>
+
+</html>
